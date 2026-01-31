@@ -8,10 +8,8 @@ interface LetterProps {
 }
 
 const StyledDiv = styled.div<{ $enabled: boolean }>`
-    width: 80px;
-    height: 100px;
     border: 3px solid var(--text-primary);
-    border-radius: 8px;
+    border-radius: 12px;
     background-color: var(--color-primary);
     color: var(--text-primary);
     display: flex;
@@ -27,7 +25,7 @@ const StyledDiv = styled.div<{ $enabled: boolean }>`
         background-color: var(--text-secondary);
         color: var(--text-primary);
     `}
-`
+`;
 
 const Letter: React.FC<LetterProps> = observer(({ char }) => {
     const { tappleStore } = useStores();

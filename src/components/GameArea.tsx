@@ -9,12 +9,10 @@ import Letter from '../components/Letter';
 import CategorySelect from './CategorySelect';
 
 const StyledLetterContainer = styled.div<{ $timeOver?: boolean }>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(4, 70px);
+    grid-template-rows: repeat(5, 90px);
+    gap: 6px;
 
     ${({ $timeOver }) =>
         $timeOver &&
@@ -35,7 +33,7 @@ const StyledGameArea = styled.div<{ $timeWarning?: boolean, $timeOver?: boolean 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     width: 100%;
     height: 100vh;
     display: flex;
