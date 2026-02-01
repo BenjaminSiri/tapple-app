@@ -31,7 +31,7 @@ class TappleStore {
     "Players Choice",
     "Things in a kitchen",
     "Types of animals",
-    "Things you find at the beach",
+    "Things at the beach",
     "Foods",
     "Countries",
     "Sports",
@@ -63,7 +63,6 @@ class TappleStore {
     "Types of birds",
     "US cities",
     "Parts of the body",
-    "Things you wear on your feet",
     "Candy or chocolate brands",
     "TV shows",
     "Hobbies",
@@ -76,7 +75,7 @@ class TappleStore {
     "Video games",
     "Superheroes",
     "Types of dance",
-    "Things you find in space",
+    "Things in space",
     "Seasons or holidays",
     "Things that fly"
   ]

@@ -45,10 +45,24 @@ const FloatingLetter = styled.span<{ $delay: number; $duration: number; $top: nu
 
 const StyledLetterContainer = styled.div<{ $timeOver?: boolean }>`
     display: grid;
-    grid-template-columns: repeat(4, 80px);
-    grid-template-rows: repeat(5, 100px);
-    gap: 6px;
+    grid-template-columns: repeat(4, 120px);
+    grid-template-rows: repeat(5, 120px);
+    gap: 8px;
     justify-content: center;
+
+    /* Tablet and smaller */
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(4, 100px);
+        grid-template-rows: repeat(5, 120px);
+        gap: 6px;
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+        grid-template-columns: repeat(4, 80px);
+        grid-template-rows: repeat(5, 100px);
+        gap: 4px;
+    }
 
     ${({ $timeOver }) =>
         $timeOver &&
@@ -141,6 +155,7 @@ const StyledHeader = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 400px;
+    padding: 0 8px;
 `;
 
 const StyledIconButton = styled(IconButton)`
