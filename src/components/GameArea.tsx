@@ -12,9 +12,10 @@ import CategorySelect from './CategorySelect';
 
 const StyledLetterContainer = styled.div<{ $timeOver?: boolean }>`
     display: grid;
-    grid-template-columns: repeat(4, 80px);
-    grid-template-rows: repeat(5, 100px);
+    grid-template-columns: repeat(4, minmax(60px, 100px));
+    grid-template-rows: repeat(5, minmax(80px, 120px));
     gap: 6px;
+    justify-content: center;
 
     ${({ $timeOver }) =>
         $timeOver &&
