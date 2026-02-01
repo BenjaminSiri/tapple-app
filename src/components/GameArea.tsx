@@ -193,7 +193,7 @@ const GameArea: React.FC = observer(() => {
         }
     }, [tappleStore.timeOver]);
 
-    const backgroundLetters = Array.from({ length: 20 }, (_, i) => ({
+    const backgroundLetters = Array.from({ length: 20 }, () => ({
         char: String.fromCharCode(65 + Math.floor(Math.random() * 26)),
         delay: Math.random() * 10,
         duration: 15 + Math.random() * 10,
