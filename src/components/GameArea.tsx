@@ -102,12 +102,12 @@ const StyledButton = styled(Button)`
         font-size: 16px;
         border: 3px solid var(--text-primary);
         border-radius: 25px;
-        background-color: var(--color-background);
+        background-color: var(--background); !important;
         color: var(--text-primary);
-        text-transform: none; /* Removes MUI's default uppercase */
+        text-transform: none;
         
         &:hover {
-            background-color: var(--color-secondary);
+            background-color: var(--text-secondary);
             color: var(--text-primary);
             border: 3px solid var(--text-primary);
         }

@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
     --color-primary:rgb(29, 133, 185);
     --background:rgb(255, 255, 255);
     --text-primary: rgb(33, 33, 33);
-    --text-secondary: rgb(117, 117, 117);
+    --text-secondary: rgb(217, 217, 217);
     --color-warning: rgb(255, 82, 82);
   }
 `;

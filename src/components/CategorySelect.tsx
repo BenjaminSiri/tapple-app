@@ -15,9 +15,9 @@ const StyledCategoryDiv = styled.div`
     display: flex;
     font-size: 20px;
     font-weight: bold;
-    padding: 0 8px;
+    padding-left: 16px;
     border: 3px solid var(--text-primary);
-    border-radius: 8px;
+    border-radius: 30px;
     background-color: var(--color-primary);
 `;
 
@@ -28,7 +28,11 @@ const CategorySelect: React.FC = observer(() => {
 
     return (
         <StyledCategoryDiv>
-            { category ? <Typography variant="h6">{category}</Typography> : <Typography variant="h6">Roll for a category</Typography> }
+            { category ?
+                <Typography variant="h6" fontSize={18}>{category}</Typography>
+            :
+                <Typography variant="h6" fontSize={18}>Roll for a category</Typography>
+            }
             <IconButton
                 aria-label="reset category"
                 onClick={() => tappleStore.randomizeCategory()}
