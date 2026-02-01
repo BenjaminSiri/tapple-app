@@ -3,6 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '../stores/RootStore';
 import styled from 'styled-components';
 
+import Typography from '@mui/material/Typography';
+
 interface LetterProps {
     char: string;
 }
@@ -38,7 +40,7 @@ const Letter: React.FC<LetterProps> = observer(({ char }) => {
 
     return (
         <StyledDiv $enabled={status} onClick={handleClick}>
-            {char}
+            <Typography variant="h5" fontWeight="bold">{char}</Typography>
         </StyledDiv>
     );
 });

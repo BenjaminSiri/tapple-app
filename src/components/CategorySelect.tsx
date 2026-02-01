@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '../stores/RootStore';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import Typography from '@mui/material/Typography';
 
 
 const StyledCategoryDiv = styled.div`
@@ -27,7 +28,7 @@ const CategorySelect: React.FC = observer(() => {
 
     return (
         <StyledCategoryDiv>
-            { category ? <p>{category}</p> : <p>Roll for a category</p> }
+            { category ? <Typography variant="h6">{category}</Typography> : <Typography variant="h6">Roll for a category</Typography> }
             <IconButton
                 aria-label="reset category"
                 onClick={() => tappleStore.randomizeCategory()}

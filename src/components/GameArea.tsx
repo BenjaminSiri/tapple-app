@@ -3,15 +3,17 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import {useStores} from '../stores/RootStore';
 
+import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 
 import Letter from '../components/Letter';
 import CategorySelect from './CategorySelect';
 
 const StyledLetterContainer = styled.div<{ $timeOver?: boolean }>`
     display: grid;
-    grid-template-columns: repeat(4, 70px);
-    grid-template-rows: repeat(5, 90px);
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(5, 100px);
     gap: 6px;
 
     ${({ $timeOver }) =>
@@ -59,17 +61,22 @@ const StyledGameArea = styled.div<{ $timeWarning?: boolean, $timeOver?: boolean 
     }};
 `;
 
-const StyledButton = styled.button`
-    height: 50px;
-    width: 150px;
-    font-size: 16px;
-    border: 3px solid var(--text-primary);
-    border-radius: 25px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--color-secondary);
+const StyledButton = styled(Button)`
+    && {
+        height: 50px;
+        width: 200px;
+        font-size: 16px;
+        border: 3px solid var(--text-primary);
+        border-radius: 25px;
+        background-color: var(--color-background);
         color: var(--text-primary);
+        text-transform: none; /* Removes MUI's default uppercase */
+        
+        &:hover {
+            background-color: var(--color-secondary);
+            color: var(--text-primary);
+            border: 3px solid var(--text-primary);
+        }
     }
 `;
 
@@ -80,8 +87,8 @@ const StyledModal = styled(Modal)`
 `;
 
 const ModalContent = styled.div`
-    height: 300px;
-    width: 200px;
+    height: 400px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -133,8 +140,10 @@ const GameArea: React.FC = observer(() => {
                 onClose={handleClose}
             >
                 <ModalContent>
-                    <h2 id="modal-modal-title">Time's Up!</h2>
-                    <StyledButton onClick={handleClose}>Next Player</StyledButton>
+                    <Typography id="modal-modal-title" variant="h6">Time's Up!</Typography>
+                    <StyledButton onClick={handleClose}>
+                        <Typography variant="h6">Next Player</Typography>
+                    </StyledButton>
                 </ModalContent>
             </StyledModal>
             <CategorySelect />
@@ -144,7 +153,7 @@ const GameArea: React.FC = observer(() => {
                 ))}
             </StyledLetterContainer>
             <StyledButton onClick={handleResetGame}>
-                <p>Reset Game</p>
+                <Typography variant="h6">Reset Game</Typography>
             </StyledButton>
         </StyledGameArea>
     );
