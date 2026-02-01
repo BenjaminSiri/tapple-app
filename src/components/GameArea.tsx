@@ -1,19 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import {useStores} from '../stores/RootStore';
 
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import HelpIcon from '@mui/icons-material/Help';
 
 import Letter from '../components/Letter';
 import CategorySelect from './CategorySelect';
 
+const float = keyframes`
+    from {
+        transform: translateX(-200px);
+    }
+    to {
+        transform: translateX(calc(100vw + 200px));
+    }
+`;
+
+const BackgroundLetters = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+`;
+
+const FloatingLetter = styled.span<{ $delay: number; $duration: number; $top: number }>`
+    position: absolute;
+    left: -200px;
+    font-size: 80px;
+    font-weight: bold;
+    color: rgba(200, 200, 200, 0.15);
+    top: ${({ $top }) => $top}%;
+    animation: ${float} ${({ $duration }) => $duration}s linear ${({ $delay }) => $delay}s infinite;
+    user-select: none;
+`;
+
 const StyledLetterContainer = styled.div<{ $timeOver?: boolean }>`
     display: grid;
-    grid-template-columns: repeat(4, minmax(60px, 100px));
-    grid-template-rows: repeat(5, minmax(80px, 120px));
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(5, 100px);
     gap: 6px;
     justify-content: center;
 
@@ -102,23 +135,49 @@ const ModalContent = styled.div`
     border: 3px solid var(--text-primary);
 `;
 
+const StyledHeader = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+`;
+
+const StyledIconButton = styled(IconButton)`
+    && {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        
+        &:hover {
+            background-color: var(--color-secondary);
+        }
+        
+        & svg {
+            font-size: 50px;
+            color: var(--text-primary);
+        }
+    }
+`;
+
 const GameArea: React.FC = observer(() => {
     const { tappleStore } = useStores();
-    const [open, setOpen] = useState(false);
-    const [canClose, setCanClose] = useState(false);
+    const [openTimeUpModal, setOpenTimeUpModal] = useState(false);
+    const [canCloseTimeUpModal, setCanCloseTimeUpModal] = useState(false);
+    const [openHelpModal, setOpenHelpModal] = useState(false);
 
     const handleOpen = () => {
-        setOpen(true);
-        setCanClose(false);
-        
+        setOpenTimeUpModal(true);
+        setCanCloseTimeUpModal(false);
+
         // Allow closing after 1 seconds
         setTimeout(() => {
-            setCanClose(true);
+            setCanCloseTimeUpModal(true);
         }, 1000);
     };
     const handleClose = () => {
-        if (canClose) {
-            setOpen(false);
+        if (canCloseTimeUpModal) {
+            setOpenTimeUpModal(false);
         }
     };
 
@@ -134,10 +193,30 @@ const GameArea: React.FC = observer(() => {
         }
     }, [tappleStore.timeOver]);
 
+    const backgroundLetters = Array.from({ length: 20 }, (_, i) => ({
+        char: String.fromCharCode(65 + Math.floor(Math.random() * 26)),
+        delay: Math.random() * 10,
+        duration: 15 + Math.random() * 10,
+        top: Math.random() * 90
+    }));
+
     return (
         <StyledGameArea $timeWarning={tappleStore.timeWarning} $timeOver={tappleStore.timeOver}>
+            <BackgroundLetters>
+                {backgroundLetters.map((letter, i) => (
+                    <FloatingLetter
+                        key={i}
+                        $delay={letter.delay}
+                        $duration={letter.duration}
+                        $top={letter.top}
+                    >
+                        {letter.char}
+                    </FloatingLetter>
+                ))}
+            </BackgroundLetters>
+
             <StyledModal
-                open={open}
+                open={openTimeUpModal}
                 onClose={handleClose}
             >
                 <ModalContent>
@@ -147,7 +226,30 @@ const GameArea: React.FC = observer(() => {
                     </StyledButton>
                 </ModalContent>
             </StyledModal>
-            <CategorySelect />
+
+            <StyledModal
+                open={openHelpModal}
+                onClose={() => setOpenHelpModal(false)}
+            >
+                <ModalContent>
+                    <Typography id="modal-modal-title" variant="h6">How to Play</Typography>
+                    <Typography id="modal-modal-description">
+                        Select a category and take turns naming items that fit within that category.
+                        Tap letters as you think of them. Try to think quickly before time runs out!
+                    </Typography>
+                    <StyledButton onClick={() => setOpenHelpModal(false)}>
+                        <Typography variant="h6">Close</Typography>
+                    </StyledButton>
+                </ModalContent>
+            </StyledModal>
+
+            <StyledHeader>
+                <CategorySelect />
+                <StyledIconButton onClick={() => setOpenHelpModal(true)}>
+                    <HelpIcon />
+                </StyledIconButton>
+            </StyledHeader>
+
             <StyledLetterContainer $timeOver={tappleStore.timeOver}>
                 {LetterList.map((letter) => (
                     <Letter key={letter.char} char={letter.char} />

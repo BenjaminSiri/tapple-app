@@ -8,14 +8,14 @@ import Typography from '@mui/material/Typography';
 
 
 const StyledCategoryDiv = styled.div`
-    width: 400px;
+    width: 350px;
     height: 60px;
     justify-content: space-between;
     align-items: center;
     display: flex;
     font-size: 20px;
     font-weight: bold;
-    padding: 0 16px;
+    padding: 0 8px;
     border: 3px solid var(--text-primary);
     border-radius: 8px;
     background-color: var(--color-primary);
