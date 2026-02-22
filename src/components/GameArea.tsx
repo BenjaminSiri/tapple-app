@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import {useStores} from '../stores/RootStore';
+import { useStores } from '../stores/RootStore';
 
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import HelpIcon from '@mui/icons-material/Help';
 
 import Letter from '../components/Letter';
 import CategorySelect from './CategorySelect';
+import Modal from './Modal';
 
 const float = keyframes`
-    from {
-        transform: translateX(-200px);
-    }
-    to {
-        transform: translateX(calc(100vw + 200px));
-    }
+    from { transform: translateX(-200px); }
+    to { transform: translateX(calc(100vw + 200px)); }
 `;
 
 const BackgroundLetters = styled.div`
@@ -50,63 +44,50 @@ const StyledLetterContainer = styled.div<{ $timeOver?: boolean }>`
     gap: 8px;
     justify-content: center;
 
-    /* Tablet and smaller */
     @media (max-width: 768px) {
         grid-template-columns: repeat(4, 100px);
         grid-template-rows: repeat(5, 120px);
         gap: 6px;
     }
 
-    /* Mobile */
     @media (max-width: 480px) {
         grid-template-columns: repeat(4, 80px);
         grid-template-rows: repeat(5, 100px);
         gap: 4px;
     }
 
-    ${({ $timeOver }) =>
-        $timeOver &&
-        `
+    ${({ $timeOver }) => $timeOver && `
         animation: shake 0.5s;
 
         @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            25% { transform: translate(-1px, -2px) rotate(-1deg); }
-            50% { transform: translate(-1px, 2px) rotate(1deg); }
-            75% { transform: translate(1px, 0px) rotate(0deg); }
+            0%   { transform: translate(1px, 1px) rotate(0deg); }
+            25%  { transform: translate(-1px, -2px) rotate(-1deg); }
+            50%  { transform: translate(-1px, 2px) rotate(1deg); }
+            75%  { transform: translate(1px, 0px) rotate(0deg); }
             100% { transform: translate(1px, -1px) rotate(1deg); }
         }
-    `};
+    `}
 `;
 
-const StyledGameArea = styled.div<{ $timeWarning?: boolean, $timeOver?: boolean }>`
+const StyledGameArea = styled.div<{ $timeWarning?: boolean; $timeOver?: boolean }>`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     width: 100%;
     height: 100vh;
-    display: flex;
 
     ${({ $timeWarning, $timeOver }) => {
-        if ($timeOver) {
-            return `
-            background-color: var(--color-warning);
-        `;
-        }
-        if ($timeWarning) {
-            return `
+        if ($timeOver) return `background-color: var(--color-warning);`;
+        if ($timeWarning) return `
             animation: flash 1s infinite;
-
             @keyframes flash {
                 0%, 100% { background-color: var(--color-background); }
-                50% { background-color: var(--color-warning); }
+                50%       { background-color: var(--color-warning); }
             }
         `;
-        }
-
         return null;
-    }};
+    }}
 `;
 
 const StyledButton = styled(Button)`
@@ -116,37 +97,16 @@ const StyledButton = styled(Button)`
         font-size: 16px;
         border: 3px solid var(--text-primary);
         border-radius: 25px;
-        background-color: var(--background); !important;
+        background-color: var(--background);
         color: var(--text-primary);
         text-transform: none;
-        
+
         &:hover {
             background-color: var(--text-secondary);
             color: var(--text-primary);
             border: 3px solid var(--text-primary);
         }
     }
-`;
-
-const StyledModal = styled(Modal)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const ModalContent = styled.div`
-    height: 400px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    background-color: var(--background);
-    color: var(--text-primary);
-    padding: 20px;
-    border-radius: 8px;
-    outline: none;
-    border: 3px solid var(--text-primary);
 `;
 
 const StyledHeader = styled.div`
@@ -158,54 +118,23 @@ const StyledHeader = styled.div`
     padding: 0 8px;
 `;
 
-const StyledIconButton = styled(IconButton)`
-    && {
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
-        
-        &:hover {
-            background-color: var(--color-secondary);
-        }
-        
-        & svg {
-            font-size: 50px;
-            color: var(--text-primary);
-        }
-    }
-`;
-
 const GameArea: React.FC = observer(() => {
     const { tappleStore } = useStores();
     const [openTimeUpModal, setOpenTimeUpModal] = useState(false);
     const [canCloseTimeUpModal, setCanCloseTimeUpModal] = useState(false);
-    const [openHelpModal, setOpenHelpModal] = useState(false);
 
-    const handleOpen = () => {
+    const handleTimeUpOpen = () => {
         setOpenTimeUpModal(true);
         setCanCloseTimeUpModal(false);
-
-        // Allow closing after 1 seconds
-        setTimeout(() => {
-            setCanCloseTimeUpModal(true);
-        }, 1000);
-    };
-    const handleClose = () => {
-        if (canCloseTimeUpModal) {
-            setOpenTimeUpModal(false);
-        }
+        setTimeout(() => setCanCloseTimeUpModal(true), 1000);
     };
 
-    const LetterList = tappleStore.letters;
-
-    const handleResetGame = () => {
-        tappleStore.resetGame();
+    const handleTimeUpClose = () => {
+        if (canCloseTimeUpModal) setOpenTimeUpModal(false);
     };
 
     useEffect(() => {
-        if (tappleStore.timeOver) {
-            handleOpen();
-        }
+        if (tappleStore.timeOver) handleTimeUpOpen();
     }, [tappleStore.timeOver]);
 
     const backgroundLetters = Array.from({ length: 20 }, () => ({
@@ -219,58 +148,34 @@ const GameArea: React.FC = observer(() => {
         <StyledGameArea $timeWarning={tappleStore.timeWarning} $timeOver={tappleStore.timeOver}>
             <BackgroundLetters>
                 {backgroundLetters.map((letter, i) => (
-                    <FloatingLetter
-                        key={i}
-                        $delay={letter.delay}
-                        $duration={letter.duration}
-                        $top={letter.top}
-                    >
+                    <FloatingLetter key={i} $delay={letter.delay} $duration={letter.duration} $top={letter.top}>
                         {letter.char}
                     </FloatingLetter>
                 ))}
             </BackgroundLetters>
 
-            <StyledModal
-                open={openTimeUpModal}
-                onClose={handleClose}
-            >
-                <ModalContent>
-                    <Typography id="modal-modal-title" variant="h6">Time's Up!</Typography>
-                    <StyledButton onClick={handleClose}>
-                        <Typography variant="h6">Next Player</Typography>
-                    </StyledButton>
-                </ModalContent>
-            </StyledModal>
-
-            <StyledModal
-                open={openHelpModal}
-                onClose={() => setOpenHelpModal(false)}
-            >
-                <ModalContent>
-                    <Typography id="modal-modal-title" variant="h6">How to Play</Typography>
-                    <Typography id="modal-modal-description">
-                        Select a category and take turns naming items that fit within that category.
-                        Tap letters as you think of them. Try to think quickly before time runs out!
-                    </Typography>
-                    <StyledButton onClick={() => setOpenHelpModal(false)}>
-                        <Typography variant="h6">Close</Typography>
-                    </StyledButton>
-                </ModalContent>
-            </StyledModal>
+            {/* Time's Up Modal */}
+            <Modal open={openTimeUpModal} onClose={handleTimeUpClose}>
+                <Typography variant="h4" fontWeight="bold">⏰ Time's Up!</Typography>
+                <Typography variant="body1" textAlign="center">
+                    Pass the device to the next player.
+                </Typography>
+                <StyledButton onClick={handleTimeUpClose} disabled={!canCloseTimeUpModal}>
+                    <Typography variant="h6">Next Player</Typography>
+                </StyledButton>
+            </Modal>
 
             <StyledHeader>
                 <CategorySelect />
-                <StyledIconButton onClick={() => setOpenHelpModal(true)}>
-                    <HelpIcon />
-                </StyledIconButton>
             </StyledHeader>
 
             <StyledLetterContainer $timeOver={tappleStore.timeOver}>
-                {LetterList.map((letter) => (
+                {tappleStore.letters.map((letter) => (
                     <Letter key={letter.char} char={letter.char} />
                 ))}
             </StyledLetterContainer>
-            <StyledButton onClick={handleResetGame}>
+
+            <StyledButton onClick={() => tappleStore.resetGame()}>
                 <Typography variant="h6">Reset Game</Typography>
             </StyledButton>
         </StyledGameArea>

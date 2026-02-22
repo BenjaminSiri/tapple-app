@@ -15,6 +15,8 @@ const GlobalStyle = createGlobalStyle`
 
   :root {
     --color-primary:rgb(29, 133, 185);
+    --color-secondary: rgb(121, 173, 126);
+    --color-tertiary: rgb(255, 144, 144);
     --background:rgb(255, 255, 255);
     --text-primary: rgb(33, 33, 33);
     --text-secondary: rgb(217, 217, 217);

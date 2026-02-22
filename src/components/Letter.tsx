@@ -20,12 +20,24 @@ const StyledDiv = styled.div<{ $enabled: boolean }>`
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    transition: transform 0.15s ease;
+    transform: scale(1);
+
+    &:hover {
+        transform: ${({ $enabled }) => $enabled ? 'scale(1.11)' : 'scale(1)'};
+    }
+
+    &:active {
+        transform: scale(0.88);
+    }
 
     ${({ $enabled }) =>
         !$enabled &&
         `
         background-color: var(--text-secondary);
         color: var(--text-primary);
+        cursor: default;
+        transform: scale(0.92);
     `}
 `;
 

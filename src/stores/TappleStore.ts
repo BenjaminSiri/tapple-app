@@ -27,42 +27,42 @@ class TappleStore {
     { char: 'W', status: true },
   ]
 
-  private categories: string[] = [
-    "Players Choice",
-    "Things in a kitchen",
-    "Types of animals",
-    "Things at the beach",
+  private easyCategories: string[] = [
     "Foods",
-    "Countries",
+    "Colors",
+    "Animals",
+    "Fruits",
+    "Vegetables",
     "Sports",
     "Clothing items",
-    "Colors",
-    "Movies",
-    "Car brands",
+    "Breakfast foods",
     "Types of drinks",
+    "Ice cream flavors",
+    "Pizza toppings",
+    "Parts of the body",
+    "Things in a kitchen",
+    "Things at the beach",
+    "Furniture",
+    "Flowers",
+    "Types of birds",
+    "Insects",
+    "Desserts",
+    "Board games",
+]
+
+private hardCategories: string[] = [
+    "Players Choice",
+    "Countries",
+    "Car brands",
     "Musical instruments",
     "Jobs or professions",
     "Tools",
-    "Fruits",
-    "Vegetables",
-    "Things in a bathroom",
-    "Board games",
-    "School subjects",
-    "Things with wheels",
-    "Furniture",
-    "Weather conditions",
-    "Ice cream flavors",
-    "Pizza toppings",
     "Types of trees",
     "Things in the sky",
-    "Breakfast foods",
     "Things you plug in",
-    "Desserts",
     "Things that are cold",
     "Things that are hot",
-    "Types of birds",
     "US cities",
-    "Parts of the body",
     "Candy or chocolate brands",
     "TV shows",
     "Hobbies",
@@ -70,15 +70,17 @@ class TappleStore {
     "Types of fish",
     "Things made of metal",
     "Things made of wood",
-    "Flowers",
-    "Insects",
     "Video games",
     "Superheroes",
     "Types of dance",
     "Things in space",
     "Seasons or holidays",
-    "Things that fly"
-  ]
+    "Things that fly",
+    "School subjects",
+    "Things with wheels",
+    "Weather conditions",
+    "Movies",
+]
 
   currentCategory: string | null = null;
 
@@ -87,8 +89,11 @@ class TappleStore {
   timeOver: boolean = false;
   timeWarning: boolean = false;
 
+  currentCategoryOptions: { text: string; difficulty: 'easy' | 'hard' }[] = [];
+
   constructor() {
     makeAutoObservable(this);
+    this.currentCategory = 'Choose a category';
   }
 
   setLetterStatus(char: string, status: boolean) {
@@ -118,9 +123,17 @@ class TappleStore {
     return letter ? letter.status : false;
   }
 
-  randomizeCategory(): void {
-    const randomIndex = Math.floor(Math.random() * this.categories.length);
-    this.currentCategory = this.categories[randomIndex];
+  randomizeCategory() {
+    const easy = this.easyCategories[Math.floor(Math.random() * this.easyCategories.length)];
+    const hard = this.hardCategories[Math.floor(Math.random() * this.hardCategories.length)];
+    this.currentCategoryOptions = [
+        { text: easy, difficulty: 'easy' },
+        { text: hard, difficulty: 'hard' },
+    ];
+}
+
+  setCategory(category: string) {
+      this.currentCategory = category;
   }
 
   startTimer(): void {

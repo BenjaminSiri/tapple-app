@@ -68,7 +68,7 @@ src/
 ├── components/
 │   ├── Letter.tsx         # Individual letter button
 │   ├── LetterBoard.tsx    # Full A–Z letter grid
-│   ├── Timer.tsx          # Countdown timer
+│   ├── Modal.tsx          # Parent modal component
 │   └── CategoryCard.tsx   # Displays the active category
 ├── stores/
 │   └── TappleStore.ts     # MobX store — letter states, timer, game logic
