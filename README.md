@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# 🔤 Tapple
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A digital recreation of the fast-paced word game **Tapple**, built with React, Vite, TypeScript, and MobX.
 
-Currently, two official plugins are available:
+## What is Tapple?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Tapple is a category-based word game where players race against the clock. Each round, a category is drawn (e.g. *"Things in a kitchen"*) and players take turns naming a word that fits — but each word must start with a letter that hasn't been used yet. Tap the letter, reset the timer, and pass it along. Run out of time or letters and you're out!
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🔡 Interactive letter board — tap letters to mark them as used
+- ⏱️ Countdown timer that resets with each successful play
+- 📋 Category display for each round
+- 🔄 Round reset to restore all letters and restart the timer
+- ⚡ Reactive UI powered by MobX — state changes reflect instantly
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [React](https://react.dev/) — component-based UI
+- [Vite](https://vitejs.dev/) — fast dev server and build tool
+- [TypeScript](https://www.typescriptlang.org/) — type-safe development
+- [MobX](https://mobx.js.org/) + [mobx-react-lite](https://github.com/mobxjs/mobx/tree/main/packages/mobx-react-lite) — observable state management
+- [styled-components](https://styled-components.com/) — component-level styling
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js v18+
+- npm or yarn
+
+### Installation
+
+```bash
+git clone https://github.com/your-username/tapple.git
+cd tapple
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Running the App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+## How to Play
+
+1. Draw a category from the deck (or select one from the list)
+2. The timer starts — you have **10 seconds**
+3. Say a word that fits the category and starts with any available letter
+4. Tap that letter to mark it as used
+5. The timer resets and passes to the next player
+6. If a player can't think of a word before time runs out, they're eliminated
+7. Last player standing wins the round!
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── Letter.tsx         # Individual letter button
+│   ├── LetterBoard.tsx    # Full A–Z letter grid
+│   ├── Timer.tsx          # Countdown timer
+│   └── CategoryCard.tsx   # Displays the active category
+├── stores/
+│   └── TappleStore.ts     # MobX store — letter states, timer, game logic
+├── App.tsx
+└── main.tsx
+```
+
+## License
+
+MIT
